@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        glSurfaceView = new GLSurfaceView(this);
         setContentView(R.layout.activity_main);
 
+        glSurfaceView = findViewById(R.id.glView);
         ActivityManager activityManager =
                 (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         ConfigurationInfo configurationInfo = activityManager
@@ -38,16 +38,16 @@ public class MainActivity extends AppCompatActivity {
                         || Build.MODEL.contains("Emulator")
                         || Build.MODEL.contains("Android SDK built for x86")));
 
+        MyRender myRender = new MyRender(this);
         if (supportsEs2) {
             glSurfaceView.setEGLContextClientVersion(2);
-            glSurfaceView.setRenderer(new MyRender(this));
+            glSurfaceView.setRenderer(myRender);
             rendererSet = true;
         } else {
             Toast.makeText(this, "This device does not support OpenGL ES 2.0.",
                     Toast.LENGTH_LONG).show();
             return;
         }
-
 
     }
 
